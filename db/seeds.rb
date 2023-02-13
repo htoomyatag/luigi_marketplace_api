@@ -12,18 +12,18 @@ Role.create([{ name: "Administrator" }, { name: "Seller" }])
 User.create(name: "luigi",password: "password",role_id:1)
 
 10.times do
-    User.create(
-    	author_pseudonym: Faker::Book.author, 
-    	name: Faker::Name.unique.name, 
-    	password: 'password', 
-    	role_id: 2)
+	User.create(
+		author_pseudonym: Faker::Book.author, 
+	    name: Faker::Name.unique.name, 
+	    password: 'password', 
+	    role_id: 2)
+end
 
-    50.times do
-	   Book.create(
+20.times do
+	Book.create(
 	   	title: Faker::Book.title, 
 	   	description: Faker::Lorem.paragraph, 
 		user_id: rand(1..10),
 		cover_image: Faker::LoremFlickr.image,
 		price: Faker::Commerce.price)
-	end
 end

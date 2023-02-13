@@ -4,6 +4,8 @@ RSpec.describe "Books", type: :request do
   describe "GET /index" do
     let!(:users) {FactoryBot.create_list(:create_user, 10)}
     let!(:books) {FactoryBot.create_list(:create_book, 20)}
+
+    # implement for xml too
     before {get '/v1/books.json'}
     it 'returns all books' do
         expect(JSON.parse(response.body).size).to eq(20)

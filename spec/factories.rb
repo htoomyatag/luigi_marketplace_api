@@ -1,6 +1,6 @@
 FactoryBot.define do
 
-  Role.create([{ name: "Administrator" }, { name: "Seller" }])
+  # Role.create([{ name: "Administrator" }, { name: "Seller" }])
   
   factory :create_user, class: User do
     author_pseudonym { Faker::Book.author }
