@@ -3,8 +3,8 @@ class V1::BooksController < ApplicationController
 
   # GET /v1/books
   def index
-    books = Book.all
-    render json: books
+    @books = Book.all
+    render json: @books
   end
 
   # GET /v1/books/1
