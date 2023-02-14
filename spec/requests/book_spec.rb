@@ -20,9 +20,11 @@ RSpec.describe "Books", type: :request do
   describe "DELETE /unpublish/:id" do
       let!(:book) { FactoryBot.create(:book) }
 
-      it "deletes the book" do
+      it "deletes the book and should respond with a 204 no content" do
         expect{delete "/v1/book/unpublish/#{book.id}"}.to change(Book,:count).by(-1)
+        expect(response).to have_http_status(:no_content)
       end
+
    end
 
 end

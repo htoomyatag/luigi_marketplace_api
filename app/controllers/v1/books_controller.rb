@@ -1,32 +1,24 @@
 class V1::BooksController < ApplicationController
-
+  require_relative '../helpers/book_helper'
+  include BookHelper
   before_action :set_book, only: %i[ show update destroy unpublish]
+  respond_to :xml, :json
 
   # GET /v1/books.json
   # GET /v1/books.xml
   def index
-    respond_to do |format|
-      format.json { render(json: set_serializer(Book.all))}
-      format.xml { render(xml: JSON.parse(set_serializer(Book.all)),skip_types: true)}
-    end
+    @books = Book.all
+    respond_with(JSON.parse(set_serializer(@books)))
   end
 
   # GET /v1/books/1
   def show
-    respond_to do |format|
-      format.json { render(json: set_serializer(@book))}
-      format.xml { render(xml: JSON.parse(set_serializer(@book)),skip_types: true)}
-    end
-  end
-
-  def set_serializer(book)
-    BookSerializer.new(book,include:[:user]).serializable_hash.to_json
+    respond_with(JSON.parse(set_serializer(@book)))
   end
 
   # DELETE /v1/book/unpublish/:id
   def unpublish
     @book.delete
-    render json: {status: 204}
   end
 
 
