@@ -5,19 +5,22 @@ class V1::BooksController < ApplicationController
   # GET /v1/books.json
   # GET /v1/books.xml
   def index
-    @books = Book.all
-    data = BookSerializer.new(@books,include:[:user]).serializable_hash.to_json
-
     respond_to do |format|
-      format.json { render(json: data, status: :ok)}
-      format.xml { render(xml: JSON.parse(data),skip_types: true)}
+      format.json { render(json: set_serializer(Book.all), status: :ok)}
+      format.xml { render(xml: JSON.parse(set_serializer(Book.all)),skip_types: true)}
     end
   end
 
-
   # GET /v1/books/1
   def show
-    render json: book
+    respond_to do |format|
+      format.json { render(json: set_serializer(@book), status: :ok)}
+      format.xml { render(xml: JSON.parse(set_serializer(@book)),skip_types: true)}
+    end
+  end
+
+  def set_serializer(book)
+    BookSerializer.new(book,include:[:user]).serializable_hash.to_json
   end
 
   # POST /v1/books
@@ -48,7 +51,7 @@ class V1::BooksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
-      book = Book.find(params[:id])
+      @book = Book.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
