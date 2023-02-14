@@ -1,18 +1,22 @@
 require 'rails_helper'
+require 'json'
 
 RSpec.describe "Books", type: :request do
   describe "GET /index" do
-    let!(:users) {FactoryBot.create_list(:create_user, 10)}
-    let!(:books) {FactoryBot.create_list(:create_book, 20)}
 
-    # implement for xml too
+    FactoryBot.create_list(:book, 5)
     before {get '/v1/books.json'}
-    it 'returns all books' do
-        expect(JSON.parse(response.body).size).to eq(20)
+
+      it 'returns status code 200 ok' do
+        expect(response).to have_http_status(:ok)
       end
-    it 'returns status code 200' do
-        expect(response).to have_http_status(:success)
+  
+      it 'returns 5 books' do
+        expect(json_body["data"].count).to eq(5)
       end
+
   end
 end
+
+
 

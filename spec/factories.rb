@@ -1,21 +1,24 @@
 FactoryBot.define do
 
-  # Role.create([{ name: "Administrator" }, { name: "Seller" }])
-  
-  factory :create_user, class: User do
-    author_pseudonym { Faker::Book.author }
-    name { Faker::Name.unique.name }
-    password { "password" }
-    role_id { 2 }
+  factory :role do
+    name { "Seller" }
   end
 
-  factory :create_book, class: Book do
+  factory :user do
+    name { Faker::Name.unique.name }
+    author_pseudonym { Faker::Book.author } 
+    role
+  end
+
+  factory :book do
     title { Faker::Book.title }
     description { Faker::Lorem.paragraph }
-    user_id { rand(1..10) }
     cover_image { Faker::LoremFlickr.image }
     price { Faker::Commerce.price }
+    user
   end
+
+
 
 end
 

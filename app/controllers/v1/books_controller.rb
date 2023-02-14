@@ -1,18 +1,19 @@
 class V1::BooksController < ApplicationController
+
   before_action :set_book, only: %i[ show update destroy ]
 
-
-  # GET /v1/books
+  # GET /v1/books.json
+  # GET /v1/books.xml
   def index
-    @books = Book.all.to_json(
-      except: [:user_id, :created_at,:updated_at],
-      include:{user:{only:[:author_pseudonym]}})
-    data = JSON.parse(@books)
+    @books = Book.all
+    data = BookSerializer.new(@books,include:[:user]).serializable_hash.to_json
+
     respond_to do |format|
-        format.xml { render(xml: data,skip_types: true)}
-        format.json { render(json: JSON.pretty_generate(data))}
+      format.json { render(json: data, status: :ok)}
+      format.xml { render(xml: JSON.parse(data),skip_types: true)}
     end
   end
+
 
   # GET /v1/books/1
   def show
