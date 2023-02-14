@@ -20,12 +20,8 @@ RSpec.describe "Books", type: :request do
   describe "DELETE /unpublish/:id" do
       let!(:book) { FactoryBot.create(:book) }
 
-      before do
-        delete "/v1/book/unpublish/#{book.id}"
-      end
-
-      it 'returns status code 204' do
-         expect(json_body["status"]).to eq 204
+      it "deletes the book" do
+        expect{delete "/v1/book/unpublish/#{book.id}"}.to change(Book,:count).by(-1)
       end
    end
 
