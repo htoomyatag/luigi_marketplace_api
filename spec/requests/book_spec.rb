@@ -24,14 +24,11 @@ RSpec.describe "Books", type: :request do
     end
   end
 
-
-  describe "CREATE /books/" do
-
+  describe "POST /books/" do
     let!(:user) { FactoryBot.create(:user) }
 
     scenario 'invalid book attributes' do
-
-      post "/v1/books", params: {
+      post "/v1/books.json", params: {
         book: {
           title: nil,
           description: nil, 
@@ -45,12 +42,10 @@ RSpec.describe "Books", type: :request do
       expect(validation_error_msg("cover_image")).to eq(["can't be blank", "is not a valid URL"])
       expect(validation_error_msg("price")).to eq(["can't be blank"])
       expect(validation_error_msg("user")).to eq(['must exist'])
-
     end
 
     scenario 'valid book attributes' do
-
-      post '/v1/books', params: {
+      post '/v1/books.json', params: {
         book: { 
             title: "Gone with the wind", 
             description: "book summary", 
@@ -65,7 +60,23 @@ RSpec.describe "Books", type: :request do
       expect(json_body['price']).to eq("28.65")
       expect(json_body['user_id']).to eq(1)
       expect(response).to have_http_status(:ok)
+    end
+  end
 
+  describe "PUT update/:id" do
+    let!(:book) { FactoryBot.create(:book) }  
+    it 'update books data' do
+      put "/v1/books/#{book.id}.json", params: {
+          book: {
+            title: 'new title',
+            description: "new desc",
+            price: 50.45
+          }
+        }
+
+        expect(json_body['title']).to eq('new title')
+        expect(json_body['description']).to eq('new desc')
+        expect(json_body['price']).to eq("50.45")
     end
   end
 

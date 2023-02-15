@@ -23,20 +23,28 @@ class V1::BooksController < ApplicationController
 
   # POST /v1/books
   def create
-    book = Book.new(book_params)
-    if book.save
-      render json: book, status: 200
-    else
-      render json: {error: book.errors}
+    @book = Book.create(book_params) 
+    respond_to do |format|
+      if @book.save
+        format.json  { render json: @book }
+        format.xml  { render xml: JSON.parse(@book.to_json).to_xml }
+      else
+        format.json  { render json: {error: @book.errors}}
+        format.xml  { render xml: JSON.parse(@book.errors.to_json).to_xml }
+      end
     end
   end
 
   # PATCH/PUT /v1/books/1
   def update
-    if book.update(book_params)
-      render json: book
-    else
-      render json: book.errors, status: :unprocessable_entity
+    respond_to do |format|
+      if @book.update(book_params)
+        format.json  { render json: @book }
+        format.xml  { render xml: JSON.parse(@book.to_json).to_xml }
+      else
+        format.json  { render json: {error: @book.errors}}
+        format.xml  { render xml: JSON.parse(@book.errors.to_json).to_xml }
+      end
     end
   end
 

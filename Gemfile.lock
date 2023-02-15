@@ -201,6 +201,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  activesupport (~> 7.0, >= 7.0.4.2)
   bootsnap
   database_cleaner-active_record
   debug
