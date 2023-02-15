@@ -15,7 +15,7 @@ end
 	Book.create(
 	   	title: Faker::Book.title, 
 	   	description: Faker::Lorem.paragraph, 
-		user_id: rand(1..5),
 		cover_image: Faker::LoremFlickr.image,
-		price: Faker::Commerce.price)
+		price: Faker::Commerce.price,
+		user_id: rand(1..5))
 end

@@ -21,15 +21,13 @@ class V1::BooksController < ApplicationController
     @book.delete
   end
 
-
   # POST /v1/books
   def create
     book = Book.new(book_params)
-
     if book.save
-      render json: book, status: :created, location: book
+      render json: book, status: 200
     else
-      render json: book.errors, status: :unprocessable_entity
+      render json: {error: book.errors}
     end
   end
 
@@ -55,6 +53,7 @@ class V1::BooksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def book_params
-      params.fetch(:book, {})
+      params.require(:book).permit(:title, :description, :cover_image, :price, :user_id)
     end
+
 end
