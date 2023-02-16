@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     end
 
   end
-  resources :roles
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'}

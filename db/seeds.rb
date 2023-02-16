@@ -1,14 +1,18 @@
 require 'faker'
 
-Role.create([{ name: "Administrator" }, { name: "Seller" }])
-User.create(name: "luigi",password: "password",role_id:1)
+User.create(
+	name: "luigi",
+	author_pseudonym: "Mario",
+	email: "luigi@gmail.com",
+	password: "password",
+	is_admin: true)
 
 5.times do
 	User.create(
+		name: Faker::Name.unique.name, 
 		author_pseudonym: Faker::Book.author, 
-	    name: Faker::Name.unique.name, 
-	    password: 'password', 
-	    role_id: 2)
+		email: Faker::Internet.email,
+	    password: 'password')
 end
 
 7.times do
@@ -17,5 +21,5 @@ end
 	   	description: Faker::Lorem.paragraph, 
 		cover_image: Faker::LoremFlickr.image,
 		price: Faker::Commerce.price,
-		user_id: rand(1..5))
+		user_id: rand(2..6))
 end

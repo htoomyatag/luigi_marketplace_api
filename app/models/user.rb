@@ -6,7 +6,6 @@ class User < ApplicationRecord
          :registerable,
          jwt_revocation_strategy: JwtDenylist
 
-	belongs_to :role
 	has_many :books
 
   validates :email, uniqueness: true

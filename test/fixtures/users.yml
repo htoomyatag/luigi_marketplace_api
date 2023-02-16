@@ -3,11 +3,9 @@
 one:
   name: MyString
   password: MyString
-  role_id: 1
   author_pseudonym: MyString
 
 two:
   name: MyString
   password: MyString
-  role_id: 1
   author_pseudonym: MyString

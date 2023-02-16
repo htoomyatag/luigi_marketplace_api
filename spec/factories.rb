@@ -1,13 +1,9 @@
 FactoryBot.define do
 
-  factory :role do
-    name { "Seller" }
-  end
 
   factory :user do
     name { Faker::Name.unique.name }
     author_pseudonym { Faker::Book.author } 
-    role
   end
 
   factory :book do
