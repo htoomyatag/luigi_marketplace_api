@@ -7,11 +7,9 @@ Rails.application.routes.draw do
       get "search" => "books#search"
       post "import" => "books#import"
     end
-
   end
+    resources :users
 
-  devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations'}
+
 
 end

@@ -1,18 +1,17 @@
 require 'faker'
 
 User.create(
-	name: "luigi",
-	author_pseudonym: "Mario",
-	email: "luigi@gmail.com",
+	username: "luigi",
 	password: "password",
+	author_pseudonym: "Mario",
 	is_admin: true)
 
 5.times do
 	User.create(
-		name: Faker::Name.unique.name, 
-		author_pseudonym: Faker::Book.author, 
-		email: Faker::Internet.email,
-	    password: 'password')
+		username: Faker::Name.unique.name, 
+		password: 'password',
+		author_pseudonym: Faker::Book.author
+	    )
 end
 
 7.times do

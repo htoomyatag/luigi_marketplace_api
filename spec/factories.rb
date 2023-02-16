@@ -2,7 +2,8 @@ FactoryBot.define do
 
 
   factory :user do
-    name { Faker::Name.unique.name }
+    username { Faker::Name.unique.name }
+    password { 'password' }
     author_pseudonym { Faker::Book.author } 
   end
 

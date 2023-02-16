@@ -40,9 +40,6 @@ gem "responders"
 gem "validate_url"
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
-gem 'rack-cors'
-gem 'devise'
-gem 'devise-jwt'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -51,7 +48,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'main'
   gem 'database_cleaner-active_record'
-  gem 'dotenv-rails'
 end
 
 group :development do
