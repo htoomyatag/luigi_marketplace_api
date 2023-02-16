@@ -68,15 +68,26 @@ RSpec.describe "Books", type: :request do
     it 'update books data' do
       put "/v1/books/#{book.id}.json", params: {
           book: {
-            title: 'new title',
+            title: 'the last samurai',
             description: "new desc",
             price: 50.45
           }
         }
 
-        expect(json_body['title']).to eq('new title')
+        expect(json_body['title']).to eq('the last samurai')
         expect(json_body['description']).to eq('new desc')
         expect(json_body['price']).to eq("50.45")
+    end
+  end
+
+  describe "GET search" do
+    scenario 'search with valid params' do
+      get '/v1/book/search.json', params: {query: "samurai"}
+      expect(json_body['title']).to eq("the last samurai")
+    end
+    scenario 'search with invalid params' do
+      get '/v1/book/search.json'
+      expect(json_body['message']).to eq("No data")
     end
   end
 

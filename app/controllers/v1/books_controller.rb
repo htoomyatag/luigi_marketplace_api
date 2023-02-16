@@ -48,6 +48,21 @@ class V1::BooksController < ApplicationController
     end
   end
 
+  # GET /v1/book/search?query=
+  def search
+    result = Book.all.search(params["query"]).response.dig("hits", "hits","0","_source")
+    respond_to do |format|
+      unless params[:query].blank? or result.nil?
+        format.json  { render json: result}
+        format.xml  { render xml: result }
+      else
+        format.json  { render json: {result: nil, message: 'No data'}}
+        format.xml  { render xml: {result: nil, message: 'No data'}}
+      end
+    end
+  end
+
+
   # DELETE /v1/books/1
   def destroy
     book.destroy

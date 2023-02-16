@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :v1 do
     resources :books
     delete "book/unpublish/:id" => "books#unpublish"
+    get "book/search" => "books#search"
     resources :users
   end
   resources :roles

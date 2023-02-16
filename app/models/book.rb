@@ -1,4 +1,5 @@
 class Book < ApplicationRecord
+	include Searchable
 	belongs_to :user
 	validates :title, :user_id, :cover_image, :price, presence: true
 	validates :title, length: { maximum: 150 }
