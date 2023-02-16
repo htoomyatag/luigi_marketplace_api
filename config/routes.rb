@@ -9,7 +9,6 @@ Rails.application.routes.draw do
     end
   end
     resources :users
-
-
+    post "/auth/login" => "authentication#login"
 
 end
