@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   namespace :v1 do
     resources :books
     delete "book/unpublish/:id" => "books#unpublish"
-    get "book/search" => "books#search"
+    scope '/book' do
+      get "search" => "books#search"
+      post "import" => "books#import"
+    end
+
     resources :users
   end
   resources :roles

@@ -62,6 +62,19 @@ class V1::BooksController < ApplicationController
     end
   end
 
+  # POST /v1/book/import
+  def import
+    respond_to do |format|
+      if Book.import(params[:file])
+        format.json  { render json: :success }
+        format.xml  { render xml: :success }
+      else
+        format.json  { render json: {result: :error}}
+        format.xml  { render xml: {result: :error}}
+      end
+    end
+  end
+
 
   # DELETE /v1/books/1
   def destroy
