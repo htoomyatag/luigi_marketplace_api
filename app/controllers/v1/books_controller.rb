@@ -2,6 +2,7 @@ class V1::BooksController < ApplicationController
   require_relative '../helpers/book_helper'
   include BookHelper
   before_action :set_book, only: %i[ show update destroy unpublish]
+  before_action :authenticate_user!, only: [:create,:update,:unpublish,:delete,:import]
   respond_to :xml, :json
 
   # GET /v1/books.json
