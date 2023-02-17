@@ -55,7 +55,7 @@ class V1::BooksController < ApplicationController
   # GET /v1/book/search.json?query=
   # GET /v1/book/search.xml?query=
   def search
-    result = Book.all.search(params["query"]).response.dig("hits", "hits","0","_source")
+    result = Book.all.search(params[:query]).response.dig("hits", "hits","0","_source")
     respond_to do |format|
       unless params[:query].blank? or result.nil?
         format.json {render json: result}
@@ -69,15 +69,11 @@ class V1::BooksController < ApplicationController
 
   # POST /v1/book/import.json
   def import
-    respond_to do |format|
       if Book.import(params[:file])
-        format.json {render json: :success}
-        format.xml {render xml: :success}
+        render json: :success
       else
-        format.json {render json: {result: :error}}
-        format.xml {render xml: {result: :error}}
+        render json: :error
       end
-    end
   end
 
   # DELETE /v1/books/1

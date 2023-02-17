@@ -1,3 +1,4 @@
+require "csv"
 class Book < ApplicationRecord
 	include Searchable
 	belongs_to :user
@@ -11,6 +12,6 @@ class Book < ApplicationRecord
 	   		book = Book.new(row.to_hash)
 	   		return false unless book.valid?
 	   		book.save
-	   end  
+	    end  
 	end
 end
