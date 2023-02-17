@@ -8,4 +8,8 @@ module ApiHelpers
     json_body["error"].fetch(field)
   end
 
+  def login_as(user)
+    post "/auth/login.json", params: {username: user.username, password: "password"}
+  end
+
 end

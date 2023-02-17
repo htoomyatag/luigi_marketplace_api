@@ -3,6 +3,7 @@ require 'json'
 
 RSpec.describe "Books", type: :request do
 
+
   describe "GET /index" do
     let!(:book) { FactoryBot.create_list(:book, 5) }
     before {get '/v1/books.json'}
@@ -17,9 +18,14 @@ RSpec.describe "Books", type: :request do
   end
 
   describe "DELETE /unpublish/:id" do
+    let!(:user) { FactoryBot.create(:user) }
     let!(:book) { FactoryBot.create(:book) }
-    it "deletes the book and should respond with a 204 no content" do
-        expect{delete "/v1/book/unpublish/#{book.id}"}.to change(Book,:count).by(-1)
+
+    before do
+      login_as(user)
+    end 
+    it "deletes the book and should respond with a 204 no content" do   
+        expect{ delete "/v1/book/unpublish/#{book.id}", headers: {"Authorization": "Bearer #{json_body['token']}", "Accept": "application/json"}}.to change(Book,:count).by(-1)
         expect(response).to have_http_status(:no_content)
     end
   end
@@ -27,8 +33,12 @@ RSpec.describe "Books", type: :request do
   describe "POST /books/" do
     let!(:user) { FactoryBot.create(:user) }
 
+    before do
+      login_as(user)  
+    end 
+
     scenario 'invalid book attributes' do
-      post "/v1/books.json", params: {
+      post "/v1/books.json", headers: {"Authorization": "Bearer #{json_body['token']}", "Accept": "application/json"}, params: {
         book: {
           title: nil,
           description: nil, 
@@ -45,7 +55,7 @@ RSpec.describe "Books", type: :request do
     end
 
     scenario 'valid book attributes' do
-      post '/v1/books.json', params: {
+      post '/v1/books.json', headers: {"Authorization": "Bearer #{json_body['token']}", "Accept": "application/json"}, params: {
         book: { 
             title: "Gone with the wind", 
             description: "book summary", 
@@ -65,8 +75,12 @@ RSpec.describe "Books", type: :request do
 
   describe "PUT update/:id" do
     let!(:book) { FactoryBot.create(:book) }  
+    let!(:user) { FactoryBot.create(:user) }
+    before do
+      login_as(user)  
+    end 
     it 'update books data' do
-      put "/v1/books/#{book.id}.json", params: {
+      put "/v1/books/#{book.id}.json",headers: {"Authorization": "Bearer #{json_body['token']}", "Accept": "application/json"}, params: {
           book: {
             title: 'the last samurai',
             description: "new desc",

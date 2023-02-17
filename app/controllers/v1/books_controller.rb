@@ -1,7 +1,7 @@
 class V1::BooksController < ApplicationController
   require_relative '../helpers/book_helper'
   include BookHelper
-  before_action :authenticate_request, except: %i[ index show ]
+  before_action :authenticate_request, except: %i[ index show search]
   before_action :set_book, only: %i[ show update destroy unpublish]
   respond_to :xml, :json
 
