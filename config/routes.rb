@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   namespace :v1 do
     resources :books
     delete "book/unpublish/:id" => "books#unpublish"
@@ -8,7 +7,6 @@ Rails.application.routes.draw do
       post "import" => "books#import"
     end
   end
-    resources :users
-    post "/auth/login" => "authentication#login"
-
+  resources :users
+  post "/auth/login" => "authentication#login"
 end

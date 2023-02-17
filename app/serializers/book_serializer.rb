@@ -1,10 +1,8 @@
 class BookSerializer
   include JSONAPI::Serializer
-  attributes :title, :description, :price
   belongs_to :user
-
+	attributes :title, :description, :price
   attribute :cover_image_url do |object|
     "#{object.cover_image}"
   end
-  
 end

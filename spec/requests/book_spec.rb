@@ -3,36 +3,33 @@ require 'json'
 
 RSpec.describe "Books", type: :request do
 
-
   describe "GET /index" do
-    let!(:book) { FactoryBot.create_list(:book, 5) }
+    let!(:book) {FactoryBot.create_list(:book, 5)}
     before {get '/v1/books.json'}
 
     it 'returns status code 200 ok' do
       expect(response).to have_http_status(:ok)
     end
-  
     it 'returns 5 books' do
-      expect(json_body["data"].count).to eq(5)
+    	expect(json_body["data"].count).to eq(5)
     end
   end
 
   describe "DELETE /unpublish/:id" do
-    let!(:user) { FactoryBot.create(:user) }
-    let!(:book) { FactoryBot.create(:book) }
-
+    let!(:user) {FactoryBot.create(:user)}
+    let!(:book) {FactoryBot.create(:book)}
     before do
       login_as(user)
     end 
-    it "deletes the book and should respond with a 204 no content" do   
-        expect{ delete "/v1/book/unpublish/#{book.id}", headers: {"Authorization": "Bearer #{json_body['token']}", "Accept": "application/json"}}.to change(Book,:count).by(-1)
-        expect(response).to have_http_status(:no_content)
+
+    it "deletes the book and should respond with a 204 no content" do
+    	expect{ delete "/v1/book/unpublish/#{book.id}", headers: {"Authorization": "Bearer #{json_body['token']}", "Accept": "application/json"}}.to change(Book,:count).by(-1)
+    	expect(response).to have_http_status(:no_content)
     end
   end
 
   describe "POST /books/" do
-    let!(:user) { FactoryBot.create(:user) }
-
+    let!(:user) {FactoryBot.create(:user)}
     before do
       login_as(user)  
     end 
@@ -57,12 +54,13 @@ RSpec.describe "Books", type: :request do
     scenario 'valid book attributes' do
       post '/v1/books.json', headers: {"Authorization": "Bearer #{json_body['token']}", "Accept": "application/json"}, params: {
         book: { 
-            title: "Gone with the wind", 
-            description: "book summary", 
-            cover_image: "https://loremflickr.com/300/300", 
-            price: 28.65,
-            user_id: 1 
-        }}
+        	title: "Gone with the wind",
+          description: "book summary",
+          cover_image: "https://loremflickr.com/300/300",
+          price: 28.65,
+          user_id: 1 
+        }
+      }
 
       expect(json_body['title']).to eq('Gone with the wind')
       expect(json_body['description']).to eq('book summary')
@@ -74,23 +72,24 @@ RSpec.describe "Books", type: :request do
   end
 
   describe "PUT update/:id" do
-    let!(:book) { FactoryBot.create(:book) }  
+    let!(:book) { FactoryBot.create(:book) }
     let!(:user) { FactoryBot.create(:user) }
     before do
-      login_as(user)  
+      login_as(user)
     end 
+
     it 'update books data' do
       put "/v1/books/#{book.id}.json",headers: {"Authorization": "Bearer #{json_body['token']}", "Accept": "application/json"}, params: {
-          book: {
-            title: 'the last samurai',
-            description: "new desc",
-            price: 50.45
-          }
+      	book: {
+        	title: 'the last samurai',
+          description: "new desc",
+          price: 50.45
         }
+      }
 
-        expect(json_body['title']).to eq('the last samurai')
-        expect(json_body['description']).to eq('new desc')
-        expect(json_body['price']).to eq("50.45")
+      expect(json_body['title']).to eq('the last samurai')
+      expect(json_body['description']).to eq('new desc')
+      expect(json_body['price']).to eq("50.45")
     end
   end
 
@@ -104,8 +103,4 @@ RSpec.describe "Books", type: :request do
       expect(json_body['message']).to eq("No data")
     end
   end
-
 end
-
-
-

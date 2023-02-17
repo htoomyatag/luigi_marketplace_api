@@ -12,7 +12,8 @@ class V1::BooksController < ApplicationController
     respond_with(JSON.parse(set_serializer(@books)))
   end
 
-  # GET /v1/books/1
+  # GET /v1/books/1.json
+  # GET /v1/books/1.xml
   def show
     respond_with(JSON.parse(set_serializer(@book)))
   end
@@ -22,60 +23,62 @@ class V1::BooksController < ApplicationController
     @book.delete
   end
 
-  # POST /v1/books
+  # POST /v1/books.json
+  # POST /v1/books.xml
   def create
     @book = Book.create(book_params) 
     respond_to do |format|
       if @book.save
-        format.json  { render json: @book }
-        format.xml  { render xml: JSON.parse(@book.to_json).to_xml }
+        format.json {render json: @book}
+        format.xml {render xml: JSON.parse(@book.to_json).to_xml}
       else
-        format.json  { render json: {error: @book.errors}}
-        format.xml  { render xml: JSON.parse(@book.errors.to_json).to_xml }
+        format.json {render json: {error: @book.errors}}
+        format.xml {render xml: JSON.parse(@book.errors.to_json).to_xml}
       end
     end
   end
 
-  # PATCH/PUT /v1/books/1
+  # PATCH/PUT /v1/books/1.json
+  # PATCH/PUT /v1/books/1.xml
   def update
     respond_to do |format|
       if @book.update(book_params)
-        format.json  { render json: @book }
-        format.xml  { render xml: JSON.parse(@book.to_json).to_xml }
+        format.json {render json: @book}
+        format.xml {render xml: JSON.parse(@book.to_json).to_xml}
       else
-        format.json  { render json: {error: @book.errors}}
-        format.xml  { render xml: JSON.parse(@book.errors.to_json).to_xml }
+        format.json {render json: {error: @book.errors}}
+        format.xml {render xml: JSON.parse(@book.errors.to_json).to_xml}
       end
     end
   end
 
-  # GET /v1/book/search?query=
+  # GET /v1/book/search.json?query=
+  # GET /v1/book/search.xml?query=
   def search
     result = Book.all.search(params["query"]).response.dig("hits", "hits","0","_source")
     respond_to do |format|
       unless params[:query].blank? or result.nil?
-        format.json  { render json: result}
-        format.xml  { render xml: result }
+        format.json {render json: result}
+        format.xml {render xml: result}
       else
-        format.json  { render json: {result: nil, message: 'No data'}}
-        format.xml  { render xml: {result: nil, message: 'No data'}}
+        format.json {render json: {result: nil, message: 'No data'}}
+        format.xml {render xml: {result: nil, message: 'No data'}}
       end
     end
   end
 
-  # POST /v1/book/import
+  # POST /v1/book/import.json
   def import
     respond_to do |format|
       if Book.import(params[:file])
-        format.json  { render json: :success }
-        format.xml  { render xml: :success }
+        format.json {render json: :success}
+        format.xml {render xml: :success}
       else
-        format.json  { render json: {result: :error}}
-        format.xml  { render xml: {result: :error}}
+        format.json {render json: {result: :error}}
+        format.xml {render xml: {result: :error}}
       end
     end
   end
-
 
   # DELETE /v1/books/1
   def destroy
@@ -92,5 +95,4 @@ class V1::BooksController < ApplicationController
     def book_params
       params.require(:book).permit(:title, :description, :cover_image, :price, :user_id)
     end
-
 end

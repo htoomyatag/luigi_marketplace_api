@@ -5,14 +5,12 @@ class Book < ApplicationRecord
 	validates :title, length: { maximum: 150 }
 	validates :description, length: { maximum: 300 }
 	validates :cover_image, url: true
-	
 
-	 def self.import(file)
-	   CSV.foreach(file.path, headers: true) do |row|
-	     book = Book.new(row.to_hash)
-	     return false unless book.valid?
-	     book.save
+	def self.import(file)
+		CSV.foreach(file.path, headers: true) do |row|
+	   		book = Book.new(row.to_hash)
+	   		return false unless book.valid?
+	   		book.save
 	   end  
-	 end
-
+	end
 end
